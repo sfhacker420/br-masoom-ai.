@@ -14,16 +14,20 @@ function json(data, status = 200) {
 
 export async function onRequestPost({ request, env }) {
   if (!env.GEMINI_API_KEY) {
-    return json({ error: "GEMINI_API_KEY is missing in Cloudflare Pages settings." }, 503);
+    return json({
+      error: "GEMINI_API_KEY is missing. Check Cloudflare Pages settings."
+    }, 503);
   }
 
   let body;
 
   try {
     const raw = await request.text();
+
     if (raw.length > 16000) {
-      return json({ error: "Message is too long. Please shorten it." }, 413);
+      return json({ error: "Message is too long." }, 413);
     }
+
     body = JSON.parse(raw);
   } catch {
     return json({ error: "Invalid request body." }, 400);
@@ -39,22 +43,23 @@ export async function onRequestPost({ request, env }) {
 
   const system = typeof body.modePrompt === "string"
     ? body.modePrompt.slice(0, 1200)
-    : "You are BR MASOOM AI, a helpful gaming assistant. Help with PUBG Mobile, Free Fire, sensitivity, recoil, weapons, maps and gaming tips. Give clear, practical answers. Be honest when you are unsure.";
+    : "You are BR MASOOM AI, a helpful gaming assistant. Help users with PUBG Mobile, Free Fire, sensitivity settings, recoil control, weapons, maps, gaming tips and strategies. Give clear and practical answers. Be friendly and honest.";
 
   const history = Array.isArray(body.history)
     ? body.history.slice(-8).map(item => {
         const role = item?.role === "model" ? "Assistant" : "User";
+
         const text = Array.isArray(item?.parts)
           ? item.parts.map(part =>
               typeof part?.text === "string" ? part.text : ""
             ).join(" ").slice(0, 1500)
           : "";
+
         return text ? `${role}: ${text}` : "";
       }).filter(Boolean)
     : [];
 
-  const lastMessage = history[history.length - 1];
-  if (lastMessage !== `User: ${message}`) {
+  if (history[history.length - 1] !== `User: ${message}`) {
     history.push(`User: ${message}`);
   }
 
@@ -70,7 +75,7 @@ export async function onRequestPost({ request, env }) {
           "x-goog-api-key": env.GEMINI_API_KEY
         },
         body: JSON.stringify({
-          model: "gemini-3.8-flash",
+          model: "gemini-3.5-flash-lite",
           input: conversation,
           system_instruction: system,
           store: false
@@ -81,18 +86,22 @@ export async function onRequestPost({ request, env }) {
     const rawResponse = await upstream.text();
 
     let result;
+
     try {
       result = JSON.parse(rawResponse);
     } catch {
-      return json({ error: "Gemini returned an invalid response." }, 502);
+      return json({
+        error: "Gemini returned an invalid response."
+      }, 502);
     }
 
     if (!upstream.ok) {
-      const detail =
-        result?.error?.message ||
-        result?.errors?.[0]?.message ||
+      const detail = result?.error?.message ||
         "Gemini API request failed.";
-      return json({ error: detail.slice(0, 400) }, 502);
+
+      return json({
+        error: detail.slice(0, 400)
+      }, 502);
     }
 
     let reply = result?.output_text || "";
@@ -109,7 +118,9 @@ export async function onRequestPost({ request, env }) {
     reply = reply.trim();
 
     if (!reply) {
-      return json({ error: "AI returned an empty response. Please try again." }, 502);
+      return json({
+        error: "AI returned an empty response. Please try again."
+      }, 502);
     }
 
     return json({ reply });
