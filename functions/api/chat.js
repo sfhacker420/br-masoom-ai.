@@ -1,5 +1,5 @@
 
-const headers = {
+const corsHeaders = {
   "Content-Type": "application/json; charset=utf-8",
   "Cache-Control": "no-store",
   "X-Content-Type-Options": "nosniff"
@@ -8,24 +8,22 @@ const headers = {
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
     status,
-    headers
+    headers: corsHeaders
   });
 }
 
 export async function onRequestPost({ request, env }) {
   if (!env.GEMINI_API_KEY) {
-    return json({ error: "GEMINI_API_KEY is missing." }, 503);
+    return json({ error: "GEMINI_API_KEY is missing in Cloudflare Pages settings." }, 503);
   }
 
   let body;
 
   try {
     const raw = await request.text();
-
     if (raw.length > 16000) {
-      return json({ error: "Message is too long." }, 413);
+      return json({ error: "Message is too long. Please shorten it." }, 413);
     }
-
     body = JSON.parse(raw);
   } catch {
     return json({ error: "Invalid request body." }, 400);
@@ -41,24 +39,26 @@ export async function onRequestPost({ request, env }) {
 
   const system = typeof body.modePrompt === "string"
     ? body.modePrompt.slice(0, 1200)
-    : "You are BR MASOOM AI, a helpful gaming assistant. Help with PUBG Mobile, Free Fire, sensitivity, recoil, weapons and gaming tips. Be clear and honest.";
+    : "You are BR MASOOM AI, a helpful gaming assistant. Help with PUBG Mobile, Free Fire, sensitivity, recoil, weapons, maps and gaming tips. Give clear, practical answers. Be honest when you are unsure.";
 
   const history = Array.isArray(body.history)
     ? body.history.slice(-8).map(item => {
         const role = item?.role === "model" ? "Assistant" : "User";
         const text = Array.isArray(item?.parts)
-          ? item.parts.map(p =>
-              typeof p?.text === "string" ? p.text : ""
+          ? item.parts.map(part =>
+              typeof part?.text === "string" ? part.text : ""
             ).join(" ").slice(0, 1500)
           : "";
         return text ? `${role}: ${text}` : "";
       }).filter(Boolean)
     : [];
 
-  const conversation = [
-    ...history,
-    `User: ${message}`
-  ].join("\n");
+  const lastMessage = history[history.length - 1];
+  if (lastMessage !== `User: ${message}`) {
+    history.push(`User: ${message}`);
+  }
+
+  const conversation = history.join("\n");
 
   try {
     const upstream = await fetch(
@@ -73,11 +73,7 @@ export async function onRequestPost({ request, env }) {
           model: "gemini-3.8-flash",
           input: conversation,
           system_instruction: system,
-          store: false,
-          generation_config: {
-            thinking_level: "low",
-            max_output_tokens: 1200
-          }
+          store: false
         })
       }
     );
@@ -88,36 +84,39 @@ export async function onRequestPost({ request, env }) {
     try {
       result = JSON.parse(rawResponse);
     } catch {
-      return json({
-        error: "Gemini returned an invalid response. Please try again."
-      }, 502);
+      return json({ error: "Gemini returned an invalid response." }, 502);
     }
 
     if (!upstream.ok) {
-      return json({
-        error: result?.error?.message || "Gemini API request failed."
-      }, 502);
+      const detail =
+        result?.error?.message ||
+        result?.errors?.[0]?.message ||
+        "Gemini API request failed.";
+      return json({ error: detail.slice(0, 400) }, 502);
     }
 
-    const reply = (result.steps || [])
-      .filter(step => step.type === "model_output")
-      .flatMap(step => step.content || [])
-      .filter(item => item.type === "text")
-      .map(item => item.text || "")
-      .join("\n")
-      .trim();
+    let reply = result?.output_text || "";
+
+    if (!reply && Array.isArray(result?.steps)) {
+      reply = result.steps
+        .filter(step => step.type === "model_output")
+        .flatMap(step => step.content || [])
+        .filter(item => item.type === "text")
+        .map(item => item.text || "")
+        .join("\n");
+    }
+
+    reply = reply.trim();
 
     if (!reply) {
-      return json({
-        error: "AI returned an empty response. Please try again."
-      }, 502);
+      return json({ error: "AI returned an empty response. Please try again." }, 502);
     }
 
     return json({ reply });
 
-  } catch (error) {
+  } catch {
     return json({
-      error: "Could not connect to Gemini. Please try again."
+      error: "Could not connect to Gemini. Please try again later."
     }, 502);
   }
 }
