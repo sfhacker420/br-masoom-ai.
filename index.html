@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090d17">
+  <meta name="description" content="BR MASOOM AI — your gaming assistant for PUBG Mobile, Free Fire, sensitivity ideas, recoil practice and gaming tips.">
+  <title>BR MASOOM AI — Gaming Assistant</title>
+  <style>
+    :root{--bg:#080c15;--panel:#101827;--panel2:#0c1421;--line:#223047;--text:#edf4ff;--muted:#91a0b8;--cyan:#4de4e8;--blue:#5797ff;--green:#9cff75;--danger:#ff7185;--radius:18px}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% 0%,#12314a 0,transparent 35%),radial-gradient(ellipse at 0% 40%,#162039 0,transparent 35%),var(--bg);color:var(--text);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;min-height:100vh}
+    button,input,select,textarea{font:inherit}button{cursor:pointer}.app{max-width:1440px;margin:auto;padding:22px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px}.brand{display:flex;align-items:center;gap:12px}.logo{width:45px;height:45px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--cyan),var(--blue));color:#07101a;font-weight:1000;font-size:19px;box-shadow:0 0 28px #4de4e844}.brand h1{font-size:17px;letter-spacing:1.5px;margin:0}.brand p{font-size:11px;color:var(--muted);letter-spacing:2px;margin:2px 0 0}.status{border:1px solid #2b4252;color:#a7ffca;background:#0b211d;padding:7px 11px;border-radius:99px;font-size:12px}.layout{display:grid;grid-template-columns:250px minmax(0,1fr) 310px;gap:18px;align-items:start}.panel{background:linear-gradient(160deg,#111c2d,#0d1421);border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 16px 45px #0003}.sidebar{padding:17px;position:sticky;top:18px}.side-label{font-size:10px;color:#6f829e;letter-spacing:2px;font-weight:800;margin:5px 8px 12px}.nav{display:flex;flex-direction:column;gap:7px}.nav button,.prompt{border:1px solid transparent;background:transparent;color:#b8c5d9;text-align:left;padding:11px 12px;border-radius:12px;display:flex;align-items:center;gap:10px}.nav button:hover,.nav button.active{background:#1a2a3d;border-color:#29465c;color:#fff}.nav .ico{width:22px;text-align:center}.side-note{margin-top:22px;padding:13px;background:#0a1722;border:1px solid #1d3a48;border-radius:13px;color:#9fb6c9;font-size:12px}.side-note b{color:var(--cyan)}
+    .main{min-width:0}.hero{padding:24px 25px;margin-bottom:16px;position:relative;overflow:hidden}.hero:after{content:'BR';position:absolute;right:15px;top:-40px;font-size:170px;font-weight:1000;color:#ffffff06;pointer-events:none}.eyebrow{font-size:11px;letter-spacing:2.4px;color:var(--cyan);font-weight:800}.hero h2{font-size:clamp(26px,4vw,40px);line-height:1.1;margin:9px 0}.hero p{color:var(--muted);max-width:600px;margin:0}.hero strong{color:#fff}.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.chip{font-size:11px;border:1px solid #2a4056;border-radius:99px;padding:5px 10px;color:#b9d5e9;background:#0c1b2a}
+    .chat{display:flex;flex-direction:column;min-height:570px;overflow:hidden}.chat-head{padding:15px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:12px}.chat-head b{font-size:14px}.chat-head span{font-size:11px;color:var(--muted)}.messages{padding:20px;display:flex;flex-direction:column;gap:15px;min-height:360px;max-height:510px;overflow:auto}.msg{display:flex;gap:10px;max-width:88%;align-items:flex-start}.msg.user{align-self:flex-end;flex-direction:row-reverse}.avatar{width:31px;height:31px;flex:0 0 31px;border-radius:10px;display:grid;place-items:center;background:#193246;color:var(--cyan);font-size:12px;font-weight:900}.user .avatar{background:#28375a;color:#b8c9ff}.bubble{padding:11px 14px;border:1px solid #26364b;background:#111e2e;border-radius:4px 15px 15px 15px;color:#dce8f7;white-space:pre-wrap;overflow-wrap:anywhere}.user .bubble{background:#182944;border-color:#2c4b70;border-radius:15px 4px 15px 15px}.bubble small{display:block;color:#7e93ad;font-size:10px;margin-bottom:5px}.typing{color:var(--cyan);font-size:12px;padding:0 20px 10px;display:none}.suggestions{display:flex;gap:8px;flex-wrap:wrap;padding:0 18px 14px}.prompt{font-size:12px;border-color:#2b3c52;background:#0c1725;padding:7px 10px}.prompt:hover{border-color:var(--cyan);color:#fff}.composer{padding:14px;border-top:1px solid var(--line);display:flex;gap:9px;align-items:flex-end}.composer textarea{resize:vertical;min-height:48px;max-height:130px;flex:1;background:#0a1220;border:1px solid #2b3d55;border-radius:13px;color:#fff;padding:12px;outline:none}.composer textarea:focus,input:focus,select:focus{border-color:var(--cyan)}.send{border:0;border-radius:12px;padding:12px 17px;background:linear-gradient(135deg,var(--cyan),var(--blue));color:#07111d;font-weight:900}.send:disabled{opacity:.5;cursor:wait}.fineprint{font-size:10px;color:#73849b;padding:0 17px 13px}
+    .rightcol{display:flex;flex-direction:column;gap:16px}.widget{padding:17px}.widget h3{margin:0 0 4px;font-size:15px}.widget .sub{margin:0 0 15px;color:var(--muted);font-size:11px}.field{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}.field label{font-size:11px;color:#a9bad0}.field select,.field input{width:100%;padding:10px 11px;border:1px solid #2b3d55;border-radius:10px;background:#0a1220;color:#eaf3ff;outline:none}.generate{width:100%;border:1px solid #2d6672;border-radius:11px;padding:11px;background:linear-gradient(100deg,#103c45,#163e67);color:#dfffff;font-weight:800}.result{display:none;margin-top:13px;border:1px solid #294d58;background:#0a1b24;border-radius:12px;padding:12px}.result h4{margin:0 0 8px;color:var(--green);font-size:12px}.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}.result-item{padding:8px;background:#102431;border-radius:8px}.result-item span{display:block;color:#91a9ba;font-size:10px}.result-item b{font-size:14px}.copy{margin-top:10px;width:100%;background:#17283a;color:#d8eaff;border:1px solid #30465d;padding:8px;border-radius:9px;font-size:11px}.quick{display:grid;grid-template-columns:1fr 1fr;gap:8px}.quick button{padding:11px 9px;text-align:left;border:1px solid #263a52;background:#0b1523;border-radius:11px;color:#dbe9f8;font-size:11px}.quick button:hover{border-color:var(--cyan)}.quick span{display:block;color:var(--cyan);font-size:17px;margin-bottom:5px}.footer{text-align:center;color:#65758b;font-size:10px;margin:22px 0 5px}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#d9fff2;color:#092019;padding:9px 15px;border-radius:99px;font-weight:800;font-size:12px;display:none;z-index:5}
+    @media(max-width:1100px){.layout{grid-template-columns:220px minmax(0,1fr)}.rightcol{grid-column:2;display:grid;grid-template-columns:1fr 1fr}.sidebar{grid-row:1 / span 2}}
+    @media(max-width:760px){.app{padding:12px}.topbar{margin-bottom:13px}.layout{display:flex;flex-direction:column}.sidebar{position:static;width:100%;padding:12px}.nav{display:grid;grid-template-columns:repeat(3,1fr)}.nav button{justify-content:center;padding:9px 5px;font-size:11px}.nav .ico{display:none}.side-label,.side-note{display:none}.main,.rightcol{width:100%}.rightcol{display:flex}.hero{padding:20px}.chat{min-height:540px}.messages{padding:14px;max-height:450px}.msg{max-width:96%}.composer{padding:10px}.send{padding:12px}.status{font-size:10px}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand"><div class="logo">BM</div><div><h1>BR MASOOM <span style="color:var(--cyan)">AI</span></h1><p>YOUR GAMING COMMAND CENTER</p></div></div>
+    <div class="status">● GAMING AI ONLINE</div>
+  </header>
+  <div class="layout">
+    <aside class="panel sidebar">
+      <div class="side-label">WORKSPACE</div>
+      <nav class="nav">
+        <button class="active" data-mode="assistant"><span class="ico">✦</span> AI Assistant</button>
+        <button data-mode="pubg"><span class="ico">🎯</span> PUBG Mobile</button>
+        <button data-mode="freefire"><span class="ico">🔥</span> Free Fire</button>
+        <button data-mode="sensitivity"><span class="ico">⚙</span> Sensitivity</button>
+        <button data-mode="coach"><span class="ico">🏆</span> Gaming Coach</button>
+        <button data-mode="guides"><span class="ico">📚</span> Guides</button>
+      </nav>
+      <div class="side-note"><b>BR MASOOM TIP</b><br>Tell the AI your device, FPS and play style to get more useful gaming suggestions.</div>
+    </aside>
+    <main class="main">
+      <section class="panel hero">
+        <div class="eyebrow">WELCOME TO YOUR ARENA</div>
+        <h2>Level up your <span style="color:var(--cyan)">game.</span></h2>
+        <p>Your AI companion for <strong>PUBG Mobile, Free Fire, sensitivity ideas, recoil practice</strong> and gaming questions.</p>
+        <div class="chips"><span class="chip">AI GAMING CHAT</span><span class="chip">SENSITIVITY BUILDER</span><span class="chip">PRACTICE TIPS</span><span class="chip">BR MASOOM</span></div>
+      </section>
+      <section class="panel chat">
+        <div class="chat-head"><div><b id="chatTitle">BR MASOOM AI Assistant</b><br><span>Ask a gaming question to get started</span></div><button id="clearChat" class="prompt">＋ New chat</button></div>
+        <div class="messages" id="messages" aria-live="polite">
+          <div class="msg"><div class="avatar">BM</div><div class="bubble"><small>BR MASOOM AI</small>Welcome, gamer! 🎮 I'm your gaming assistant. Ask me about PUBG Mobile, Free Fire, sensitivity, gyro, recoil control, maps, weapons or practice routines.
+
+For better settings, tell me your phone model, FPS and whether you use gyroscope.</div></div>
+        </div>
+        <div class="typing" id="typing">BR MASOOM AI is thinking…</div>
+        <div class="suggestions">
+          <button class="prompt">Best PUBG gyro settings for iPhone?</button>
+          <button class="prompt">How can I control M416 recoil?</button>
+          <button class="prompt">Make me a 7-day aim practice plan</button>
+        </div>
+        <form class="composer" id="chatForm"><textarea id="userInput" maxlength="2000" placeholder="Ask BR MASOOM AI anything about gaming…" required></textarea><button class="send" id="sendBtn" type="submit">SEND ➤</button></form>
+        <div class="fineprint">AI responses can be inaccurate or outdated. Verify game updates and test settings in training mode.</div>
+      </section>
+    </main>
+    <aside class="rightcol">
+      <section class="panel widget">
+        <h3>⚙ Quick Sensitivity Builder</h3><p class="sub">Create a starting preset. These values are suggestions, not guaranteed zero recoil.</p>
+        <div class="field"><label for="device">DEVICE</label><select id="device"><option value="iphone">iPhone</option><option value="android">Android</option><option value="ipad">iPad / Tablet</option></select></div>
+        <div class="field"><label for="gyro">GYROSCOPE</label><select id="gyro"><option value="full">Always On</option><option value="scope">Scope On</option><option value="off">Off</option></select></div>
+        <div class="field"><label for="fps">FPS</label><select id="fps"><option value="60">60 FPS</option><option value="90">90 FPS</option><option value="120">120 FPS</option></select></div>
+        <div class="field"><label for="style">PLAY STYLE</label><select id="style"><option value="balanced">Balanced</option><option value="rush">Rush / Close range</option><option value="sniper">Sniper / Long range</option></select></div>
+        <button class="generate" id="makePreset">GENERATE MY PRESET</button>
+        <div class="result" id="presetResult"><h4>YOUR STARTING PRESET</h4><div class="result-grid" id="presetGrid"></div><button class="copy" id="copyPreset">COPY ALL VALUES</button></div>
+      </section>
+      <section class="panel widget"><h3>⚡ Quick tools</h3><p class="sub">Choose a topic to ask the AI.</p><div class="quick">
+        <button data-prompt="Explain M416 recoil control step by step."><span>🎯</span>M416 recoil</button>
+        <button data-prompt="Give me a PUBG Mobile close-range training routine."><span>⚔️</span>Close range</button>
+        <button data-prompt="Explain gyro aiming for a beginner."><span>📱</span>Gyro guide</button>
+        <button data-prompt="Give me a fair-play PUBG improvement plan."><span>🏆</span>Pro tips</button>
+      </div></section>
+    </aside>
+  </div>
+  <footer class="footer">BR MASOOM AI is an unofficial fan-made gaming assistant and is not affiliated with PUBG MOBILE, KRAFTON, Tencent or Garena.</footer>
+</div>
+<div class="toast" id="toast">Copied!</div>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const messages = $('messages'); let history = []; let mode = 'assistant'; let busy = false; let lastPreset = '';
+  const systemModes = {
+    assistant:'You are BR MASOOM AI, a friendly gaming assistant. Focus on video games, especially PUBG Mobile and Free Fire. Give practical, clear, safe advice. Never claim guaranteed zero recoil or pretend to know live game updates if you do not.',
+    pubg:'You are BR MASOOM AI, a specialist PUBG Mobile coach. Help with controls, sensitivity, gyro, weapons, maps, recoil practice and fair-play improvement. Never promise zero recoil.',
+    freefire:'You are BR MASOOM AI, a Free Fire gaming coach. Give practical tips about controls, aiming, character skills, weapons and training. Do not invent current patch facts.',
+    sensitivity:'You are BR MASOOM AI, a sensitivity coach. Ask for device, FPS, gyro and play style when missing. Explain that settings are starting points and must be tuned in training mode. Never guarantee zero recoil.',
+    coach:'You are BR MASOOM AI, a friendly gaming coach. Build realistic practice plans for aim, movement, positioning, teamwork and review. Keep advice beginner-friendly unless asked otherwise.',
+    guides:'You are BR MASOOM AI, a gaming guide writer. Explain game mechanics in clear steps. Flag uncertainty about recent patches and do not invent current facts.'
+  };
+  function toast(text){$('toast').textContent=text;$('toast').style.display='block';setTimeout(()=>$('toast').style.display='none',1700)}
+  function addMessage(role, text){const wrap=document.createElement('div');wrap.className='msg '+(role==='user'?'user':'');const avatar=document.createElement('div');avatar.className='avatar';avatar.textContent=role==='user'?'YOU':'BM';const bubble=document.createElement('div');bubble.className='bubble';const small=document.createElement('small');small.textContent=role==='user'?'YOU':'BR MASOOM AI';const body=document.createElement('div');body.textContent=text;bubble.append(small,body);wrap.append(avatar,bubble);messages.append(wrap);messages.scrollTop=messages.scrollHeight}
+  async function send(text){text=text.trim();if(!text||busy)return;busy=true;$('sendBtn').disabled=true;$('typing').style.display='block';addMessage('user',text);history.push({role:'user',parts:[{text}]});$('userInput').value='';
+    try{const res=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:text,history:history.slice(-10),modePrompt:systemModes[mode]})});const data=await res.json();if(!res.ok)throw new Error(data.error||'Request failed. Check API setup.');const answer=data.reply||'I could not generate a reply. Please try again.';addMessage('model',answer);history.push({role:'model',parts:[{text:answer}]});history=history.slice(-10)}catch(err){const message=err.message.includes('Failed to fetch')?'Cannot reach the AI server. Make sure the Cloudflare Pages Function is deployed and your API key is set.':err.message;addMessage('model','⚠️ '+message+'\n\nYou can still use the Sensitivity Builder while the AI connection is being configured.')}finally{busy=false;$('sendBtn').disabled=false;$('typing').style.display='none';$('userInput').focus()}}
+  $('chatForm').addEventListener('submit',e=>{e.preventDefault();send($('userInput').value)});
+  $('userInput').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();$('chatForm').requestSubmit()}});
+  document.querySelectorAll('.nav button').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');mode=btn.dataset.mode;const labels={assistant:'BR MASOOM AI Assistant',pubg:'PUBG Mobile AI Coach',freefire:'Free Fire AI Coach',sensitivity:'AI Sensitivity Coach',coach:'Gaming Coach',guides:'Gaming Guides'};$('chatTitle').textContent=labels[mode];send('I want help with '+labels[mode]+'. Please guide me.')}));
+  document.querySelectorAll('.prompt').forEach(btn=>{if(btn.id!=='clearChat')btn.addEventListener('click',()=>send(btn.textContent.trim()))});
+  document.querySelectorAll('[data-prompt]').forEach(btn=>btn.addEventListener('click',()=>send(btn.dataset.prompt)));
+  $('clearChat').addEventListener('click',()=>{history=[];messages.innerHTML='';addMessage('model','New chat started. What game are we improving today?')});
+  function makePreset(){const device=$('device').value,gyro=$('gyro').value,fps=Number($('fps').value),style=$('style').value;const base=device==='ipad'?1.08:device==='android'?.96:1;const fpsFactor=fps===120?1.04:fps===60?.94:1;const styleFactor=style==='rush'?1.08:style==='sniper'?.92:1;const val=n=>Math.max(1,Math.min(400,Math.round(n*base*fpsFactor*styleFactor)));const camera={ 'TPP No Scope':120,'FPP No Scope':110,'Red Dot / Holo':50,'2x Scope':35,'3x Scope':25,'4x Scope':20,'6x Scope':12,'8x Scope':10};const ads={ 'TPP No Scope':105,'Red Dot / Holo':45,'2x Scope':32,'3x Scope':22,'4x Scope':18,'6x Scope':10,'8x Scope':8};const gyroVals={'TPP No Scope':300,'Red Dot / Holo':300,'2x Scope':280,'3x Scope':230,'4x Scope':200,'6x Scope':90,'8x Scope':65};let items=[];Object.entries(camera).forEach(([k,v])=>items.push([k+' Camera',val(v)]));Object.entries(ads).forEach(([k,v])=>items.push([k+' ADS',val(v)]));if(gyro!=='off')Object.entries(gyroVals).forEach(([k,v])=>items.push([k+' Gyro',val(gyro==='scope'?v*.88:v)]));else items.push(['Gyroscope','Off']);$('presetGrid').innerHTML='';items.forEach(([name,value])=>{const div=document.createElement('div');div.className='result-item';const s=document.createElement('span');s.textContent=name;const b=document.createElement('b');b.textContent=value;$('presetGrid').append(div);div.append(s,b)});lastPreset=items.map(([n,v])=>n+': '+v).join('\n');$('presetResult').style.display='block'}
+  $('makePreset').addEventListener('click',makePreset);$('copyPreset').addEventListener('click',async()=>{if(!lastPreset)return;try{await navigator.clipboard.writeText(lastPreset);toast('Sensitivity copied!')}catch{toast('Copy not available in this browser')}});
+})();
+</script>
+</body>
+</html>
